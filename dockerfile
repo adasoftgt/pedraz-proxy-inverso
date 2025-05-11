@@ -1,14 +1,13 @@
-# Use the official Nginx image as the base image
-FROM nginx:latest
+FROM nginx:alpine
 
-# Copy custom Nginx configuration file to the container
-COPY nginx.conf /etc/nginx/nginx.conf
+# Elimina la configuración default
+RUN rm /etc/nginx/conf.d/default.conf
 
-# Expose port 80 for HTTP traffic
+# Copia nuestra configuración personalizada
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Exponer el puerto 80
 EXPOSE 80
 
-# Expose port 443 for HTTPS traffic
-EXPOSE 443
-
-# Start Nginx when the container starts
+# Iniciar Nginx en modo foreground
 CMD ["nginx", "-g", "daemon off;"]
